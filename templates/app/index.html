@@ -1,12 +1,21 @@
-{% extends "components/base.html" %} {% block content %}
+{% extends "components/base.html"%} 
+{% load static %} 
+
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+{% endblock extrastyles %}
+
+{% block content %}
 <p class="fs-4">Các bài đăng</p>
 <div class="row">
   {% for post in posts %}
   <div class="col-xl-6">
     <div class="border rounded p-2 mt-3">
-      <a class="text-decoration-none" href="#">{{ post.title }}</a>
+      <div class="text-truncate mb-1">
+        <a class="text-decoration-none" href="#">{{ post.title }}</a>
+      </div>
       <div>
-        <p class="text-truncate">
+        <p class="text-truncate text-sm text-wrap post-content">
           {{ post.content }}
         </p>
       </div>
