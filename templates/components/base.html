@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,6 +12,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body>
     {% include "components/navbar.html" %}
@@ -21,6 +23,7 @@
         <div class="col-10 py-3">{% block content %}{% endblock content %}</div>
       </div>
     </div>
+    <p class="test">test</p>
 
     {% include "components/footer.html" %}
 
