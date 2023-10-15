@@ -1,3 +1,13 @@
 {% extends "components/base.html" %} {% block content %}
-<p class="fs-4">{{ id }}</p>
+<div class="border-bottom">
+  <p class="fs-4 fw-bold">{{ post.title }}</p>
+  <div class="d-flex gap-3">
+    <p>Rachel Võ</p>
+    <p>heart</p>
+    <p>comment</p>
+  </div>
+</div>
+<div class="mt-4">
+  <p>{{ post.content }}</p>
+</div>
 {% endblock content %}

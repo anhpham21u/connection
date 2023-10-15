@@ -7,4 +7,8 @@ def index(req):
     return render(req, 'app/index.html', {'posts': posts})
 
 def post(req, id):
-    return render(req, 'app/post.html', {'id': id})
+    try:
+        post = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        pass
+    return render(req, 'app/post.html', {'post': post})
