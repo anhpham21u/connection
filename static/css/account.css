@@ -1,0 +1,16 @@
+.account-form {
+    width: 400px;
+    background-color: #fff;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+}
+
+.account-form-container {
+    height: 80vh;
+    padding-top: 50px;
+    background-color: #f1f2f3;
+}

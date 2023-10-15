@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light border-bottom">
   <div class="container-fluid px-5">
     <a class="navbar-brand text-secondary fw-bold fs-4" href="{% url "index" %}">.Connection</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -22,8 +22,12 @@
         </button>
       </form>
       <div class="mt-lg-0 mt-3">
-        <button class="btn btn-primary">Log in</button>
-        <button class="btn btn-primary">Sign up</button>
+        <button class="btn btn-primary">
+          <a class="text-white text-decoration-none" href="{% url "login" %}">Log in</a>
+        </button>
+        <button class="btn btn-primary">
+          <a class="text-white text-decoration-none" href="{% url "register" %}">Sign up</a>
+        </button>
       </div>
     </div>
   </div>

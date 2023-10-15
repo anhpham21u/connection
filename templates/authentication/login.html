@@ -1,0 +1,26 @@
+{% extends "authentication/base.html" %}
+
+{% load static %}
+
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}" />
+{% endblock extrastyles %}
+
+{% block content %}
+<div class="account-form-container">
+    <form class="form-signin h-100 d-flex justify-content-center align-items-center" method="post">{% csrf_token %}
+        <div class="account-form">
+            <h3 class="mb-3 text-center">Login</h3>
+            <label class="h6" for="">Email</label>
+            <input type="email" name="email" id="inputEmail" class="form-control mb-2" placeholder="Email address"
+                required autofocus>
+            <label class="h6" for="">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control mb-3" placeholder="Password"
+                required>
+            <button class="btn btn-primary btn-block w-100" type="submit">Log in</button>
+            <p class="m-0 mt-3 text-sm">Don't have an account? <a class="text-decoration-none"
+                    href="{% url "register" %}">Sign up</a></p>
+        </div>
+    </form>
+</div>
+{% endblock content %}
