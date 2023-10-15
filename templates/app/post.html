@@ -1,4 +1,11 @@
-{% extends "components/base.html" %} {% block content %}
+{% extends "components/base.html" %}
+{% load static %}
+
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+{% endblock extrastyles %}
+
+{% block content %}
 <div class="border-bottom">
   <p class="fs-4 fw-bold">{{ post.title }}</p>
   <div class="d-flex gap-3">

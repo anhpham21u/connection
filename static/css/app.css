@@ -1,3 +1,9 @@
 .post-content {
     height: 40px;
 }
+
+.nav-search {
+    @media (min-width: 992px) {
+        width: 400px;
+    }
+}
