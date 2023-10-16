@@ -40,7 +40,11 @@ INSTALLED_APPS = [
 
     'app',
     'authentication',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,7 +111,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL ='authentication.Account'
+# AUTH_USER_MODEL ='authentication.Account'
+
+# CRISPY_TEMPLATE_PACK
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

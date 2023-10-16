@@ -1,46 +1,29 @@
 {% extends "authentication/base.html" %}
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block extrastyles %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}" />
 {% endblock extrastyles %}
 
 {% block content %}
-<div class="account-form-container">
-    <form class="form-signin h-100 d-flex justify-content-center align-items-center" method="post">{% csrf_token %}
-        <div class="account-form">
-            <h3 class="mb-3 text-center">Sign up</h3>
-            <label class="h6" for="">Email</label>
-            <input type="email" name="email" id="inputEmail" class="form-control mb-2" placeholder="Email address"
-                required autofocus>
-            <label class="h6" for="">Username</label>
-            <input type="text" name="username" id="inputUsername" class="form-control mb-2" placeholder="Email address"
-                required autofocus>
-            <label class="h6" for="">Password</label>
-            <input type="password" name="password1" id="inputPassword1" class="form-control mb-3" placeholder="Password"
-                required>
-            <label class="h6" for="">Password (again)</label>
-            <input type="password" name="password2" id="inputPassword2" class="form-control mb-3"
-                placeholder="Password (again)" required>
-
-            {% for field in registration_form %}
-            <p>
-                {% for error in field.errors %}
-                <p style="color: red">{{ error }}</p>
-                {% endfor %}
-            </p>
-            {% endfor %}
-            {% if registration_form.non_field_errors %}
-            <div style="color: red">
-                <p>{{registration_form.non_field_errors}}</p>
-            </div>
-            {% endif %}
-
-            <button class="btn btn-primary btn-block w-100" type="submit">Sign up</button>
-            <p class="m-0 mt-3 text-sm">Already have an account? <a class="text-decoration-none"
-                    href="{% url "login" %}">Log in</a></p>
-        </div>
+<div class="container py-5">
+    <h1>Register</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ register_form|crispy }}
+        <button class="btn btn-primary" type="submit">Register</button>
     </form>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+
+    <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
 </div>
 {% endblock content %}
