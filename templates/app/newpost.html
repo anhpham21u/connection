@@ -1,0 +1,15 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+{% endblock extrastyles %}
+
+{% block content %}
+<h2>Create a New Post</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Post</button>
+</form>
+{% endblock content %}

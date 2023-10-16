@@ -9,9 +9,9 @@
 <div class="border-bottom">
   <p class="fs-4 fw-bold">{{ post.title }}</p>
   <div class="d-flex gap-3">
-    <p>Rachel Võ</p>
+    <p>{{ post.user.username }}</p>
     <p>heart</p>
-    <p>comment</p>
+    <p>time: {{ post.pub_date }}</p>
   </div>
 </div>
 <div class="mt-4">
