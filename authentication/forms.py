@@ -12,12 +12,6 @@ class NewUserForm(UserCreationForm):
         model = User
         fields = ("username", "email", "password1", "password2")
 
-    # def clean_username(self):
-    #     username = self.cleaned_data['username']
-    #     if User.objects.filter(username=username).exists():
-    #         raise forms.ValidationError("This username is already in use. Please choose a different one.")
-    #     return username
-
     def clean(self):
         cleaned_data = super().clean()
         username = cleaned_data.get("username")
