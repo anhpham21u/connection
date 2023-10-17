@@ -31,6 +31,16 @@ def new_post(request):
         form = PostForm()
     return render(request, 'app/newpost.html', {'form': form})
 
+def delete_post(request, id):
+    post = Post.objects.get(id=id)
+
+    if request.user == post.user or request.user.is_superuser:
+        post.delete()
+        return redirect('account')
+    else:
+        return redirect('account')
+    
+
 def like_post(request, id):
     if request.method == 'POST':
         post = Post.objects.get(id=id)

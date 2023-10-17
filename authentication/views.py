@@ -1,5 +1,7 @@
 from django.shortcuts import  render, redirect
 from django.contrib import messages
+
+from app.models import Post
 from .forms import NewUserForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -48,3 +50,16 @@ def login_view(request):
             messages.error(request,"Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="authentication/login.html", context={"login_form":form})
+
+def account_view(request):
+    user_log = request.user
+    if not user_log.is_authenticated:
+        return redirect('index')
+    
+    user = request.user
+    posts = Post.objects.filter(user=user)
+    context = {
+        'user': user,
+        'posts': posts,
+    }
+    return render(request, 'authentication/account.html', context)
