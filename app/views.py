@@ -34,7 +34,7 @@ def new_post(request):
 def delete_post(request, id):
     post = Post.objects.get(id=id)
 
-    if request.user == post.user or request.user.is_superuser:
+    if request.user == post.user:
         post.delete()
         return redirect('account')
     else:
