@@ -1,5 +1,7 @@
 # Cách chạy chương trình
-1. Cài các thư viện trong requirements.txt
+1. Clone code từ github về
+- git clone https://github.com/anhpham21u/connection.git
+2. Cài các thư viện trong requirements.txt
 - pipenv install --ignore-pipfile
-2. Vào môi trường ảo
+3. Vào môi trường ảo
 - pipenv shell
