@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
 from .forms import PostForm
 from .models import Post
 
@@ -29,3 +30,15 @@ def new_post(request):
     else:
         form = PostForm()
     return render(request, 'app/newpost.html', {'form': form})
+
+def like_post(request, id):
+    if request.method == 'POST':
+        post = Post.objects.get(id=id)
+        user = request.user
+
+        if user not in post.likes.all():
+            post.likes.add(user)
+            return JsonResponse({'message': 'Liked'})
+        else:
+            return JsonResponse({'message': 'Already liked'})
+    return JsonResponse({'message': 'Invalid request'})

@@ -10,11 +10,40 @@
   <p class="fs-4 fw-bold">{{ post.title }}</p>
   <div class="d-flex gap-3">
     <p>{{ post.user.username }}</p>
-    <p>heart</p>
+    <button class="like-button" data-post-id="{{ post.id }}">Like</button>
     <p>time: {{ post.pub_date }}</p>
   </div>
 </div>
 <div class="mt-4">
   <p>{{ post.content }}</p>
 </div>
+
+<script>
+  // JavaScript để xử lý nút "Like"
+  document.querySelectorAll('.like-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const postId = button.getAttribute('data-post-id');
+      const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+      fetch(`/like_post/${postId}/`, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrfToken // Thêm token CSRF vào header
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.message === 'Liked') {
+            // Cập nhật số lượt "like"
+            // const postElement = button.parentElement;
+            // const likesCount = postElement.querySelector('.likes-count');
+            // const newLikesCount = parseInt(likesCount.textContent) + 1;
+            // likesCount.textContent = `${newLikesCount} likes`;
+
+            // Thay đổi nút thành "Unlike"
+            button.textContent = 'Unlike';
+          }
+        });
+    });
+  });
+</script>
 {% endblock content %}
