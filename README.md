@@ -5,3 +5,5 @@
 - pipenv install --ignore-pipfile
 3. Vào môi trường ảo
 - pipenv shell
+4. Chạy chương trình
+- python manage.py runserver
