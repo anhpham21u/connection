@@ -40,5 +40,6 @@ def like_post(request, id):
             post.likes.add(user)
             return JsonResponse({'message': 'Liked'})
         else:
-            return JsonResponse({'message': 'Already liked'})
+            post.likes.remove(user)
+            return JsonResponse({'message': 'Unliked'})
     return JsonResponse({'message': 'Invalid request'})

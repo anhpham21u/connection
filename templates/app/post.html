@@ -10,7 +10,16 @@
   <p class="fs-4 fw-bold">{{ post.title }}</p>
   <div class="d-flex gap-3">
     <p>{{ post.user.username }}</p>
-    <button class="like-button" data-post-id="{{ post.id }}">Like</button>
+
+    <button class="like-button" data-post-id="{{ post.id }}">
+      {% if request.user in post.likes.all %}
+      Unlike
+      {% else %}
+      Like
+      {% endif %}
+    </button>
+    <p>Số lượt like: <span id="like-count">{{ post.likes.count }}</span></p>
+
     <p>time: {{ post.pub_date }}</p>
   </div>
 </div>
@@ -23,7 +32,11 @@
   document.querySelectorAll('.like-button').forEach(button => {
     button.addEventListener('click', () => {
       const postId = button.getAttribute('data-post-id');
-      const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+      const likeCount = document.querySelector('#like-count');
+
+      // const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
+      const csrfToken = "{{ csrf_token }}";
+
       fetch(`/like_post/${postId}/`, {
           method: 'POST',
           headers: {
@@ -34,13 +47,18 @@
         .then(data => {
           if (data.message === 'Liked') {
             // Cập nhật số lượt "like"
-            // const postElement = button.parentElement;
-            // const likesCount = postElement.querySelector('.likes-count');
-            // const newLikesCount = parseInt(likesCount.textContent) + 1;
-            // likesCount.textContent = `${newLikesCount} likes`;
+            const newLikeCount = parseInt(likeCount.textContent) + 1;
+            likeCount.textContent = newLikeCount;
 
             // Thay đổi nút thành "Unlike"
             button.textContent = 'Unlike';
+          } else if (data.message === 'Unliked') {
+            // Cập nhật số lượt "like"
+            const newLikeCount = parseInt(likeCount.textContent) - 1;
+            likeCount.textContent = newLikeCount;
+            
+            // Thay đổi nút thành "Like"
+            button.textContent = 'Like';
           }
         });
     });
