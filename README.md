@@ -4,6 +4,7 @@
 2. Cài các thư viện trong requirements.txt
 Lưu ý: cài pipenv nếu chưa cài: pip install pipenv
 - pipenv install --ignore-pipfile
+(nếu chạy lỗi thì xóa file Pipfle và Pipfile.lock cũ đi)
 3. Vào môi trường ảo
 - pipenv shell
 4. Chạy chương trình
