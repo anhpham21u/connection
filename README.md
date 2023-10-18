@@ -8,3 +8,7 @@ Lưu ý: cài pipenv nếu chưa cài: pip install pipenv
 - pipenv shell
 4. Chạy chương trình
 - python manage.py runserver
+
+# Các thư viện
+crispy-bootstrap5, django-crispy-forms: design form theo chuẩn bootstrap 5
+django-tinymce: trình chỉnh sửa text trong form
