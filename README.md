@@ -2,6 +2,7 @@
 1. Clone code từ github về
 - git clone https://github.com/anhpham21u/connection.git
 2. Cài các thư viện trong requirements.txt
+Lưu ý: cài pipenv nếu chưa cài: pip install pipenv
 - pipenv install --ignore-pipfile
 3. Vào môi trường ảo
 - pipenv shell
