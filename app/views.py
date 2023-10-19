@@ -9,11 +9,10 @@ def index(req):
     return render(req, 'app/index.html', {'posts': posts})
 
 def post(req, id):
-    try:
-        post = Post.objects.get(id=id)
-    except Post.DoesNotExist:
-        pass
-    return render(req, 'app/post.html', {'post': post})
+    post = Post.objects.get(id=id)
+    comments = post.comments.all()
+    comment_count = comments.count()
+    return render(req, 'app/post.html', {'post': post, 'comments': comments, 'comment_count': comment_count})
 
 def new_post(request):
     user_log = request.user
