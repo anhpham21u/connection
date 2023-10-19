@@ -78,7 +78,7 @@ TEMPLATES = [
 TINYMCE_DEFAULT_CONFIG = {
     "entity_encoding": "raw",
     "menubar": "file edit view insert format tools table help",
-    "plugins": 'print preview paste importcss searchreplace autolink autosave save code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons quickbars',
+    "plugins": 'print preview paste importcss searchreplace autolink autosave save code visualblocks visualchars fullscreen image link template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap emoticons quickbars',
     "toolbar": "fullscreen preview | undo redo | bold italic forecolor backcolor | formatselect | image link | "
     "alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | fontsizeselect "
     "emoticons | ",
