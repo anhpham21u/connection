@@ -8,6 +8,9 @@
 {% endblock extrastyles %}
 
 {% block content %}
+<p class="fs-4">Đổi thông tin cá nhân</p>
+<a href="{% url "change_password" %}">Đổi mật khẩu</a>
+
 <p class="fs-4">Các bài đăng</p>
 <div class="row">
     {% for post in posts %}

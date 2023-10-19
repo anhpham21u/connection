@@ -3,8 +3,8 @@ from django.contrib import messages
 
 from app.models import Post
 from .forms import NewUserForm
-from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 
 def registration_view(request):
     user_log = request.user
@@ -63,3 +63,21 @@ def account_view(request):
         'posts': posts,
     }
     return render(request, 'authentication/account.html', context)
+
+def change_password(request):
+    user_log = request.user
+    if not user_log.is_authenticated:
+        return redirect('index')
+
+    if request.method == 'POST':
+        print('test')
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('account')
+        else:
+            messages.error(request, 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'authentication/change_password.html', {'form': form})
