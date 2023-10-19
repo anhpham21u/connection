@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -90,23 +91,28 @@ TINYMCE_DEFAULT_CONFIG = {
         if (meta.filetype == "image") {
             input.setAttribute("accept", "image/*");
         }
-        if (meta.filetype == "media") {
-            input.setAttribute("accept", "video/*");
-        }
 
         input.onchange = function () {
             var file = this.files[0];
-            var reader = new FileReader();
-            reader.onload = function () {
-                var id = "blobid" + (new Date()).getTime();
-                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                var base64 = reader.result.split(",")[1];
-                var blobInfo = blobCache.create(id, file, base64);
-                blobCache.add(blobInfo);
-                cb(blobInfo.blobUri(), { title: file.name });
-            };
-            reader.readAsDataURL(file);
+            var formData = new FormData();
+            formData.append("file", file);
+
+            var csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+            // Use the Fetch API or an AJAX library like jQuery to make an HTTP POST request to your Django server.
+            fetch('/upload-image/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken 
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                var image_url = data.url;
+                cb(image_url, { title: file.name });
+            });
         };
+
         input.click();
     }""",
     "content_style": "body { font-family:Roboto,Helvetica,Arial,sans-serif; font-size:14px }",
@@ -172,6 +178,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

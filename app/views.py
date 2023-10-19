@@ -1,4 +1,6 @@
 import json
+import os
+from django.conf import settings
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .forms import PostForm
@@ -71,3 +73,21 @@ def search_view(request):
     results = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
 
     return render(request, 'app/search_results.html', {'results': results, 'query': query})
+
+def upload_image(request):
+    if request.method == 'POST':
+        image_file = request.FILES['file']
+
+        if image_file:
+            upload_path = os.path.join(settings.MEDIA_ROOT, 'uploads', image_file.name)
+            os.makedirs(os.path.dirname(upload_path), exist_ok=True)
+
+            with open(upload_path, 'wb') as destination:
+                for chunk in image_file.chunks():
+                    destination.write(chunk)
+
+            image_url = os.path.join(settings.MEDIA_URL, 'uploads', image_file.name) 
+
+            return JsonResponse({'url': image_url})
+
+    return JsonResponse({'error': 'Image upload failed'}, status=400)
