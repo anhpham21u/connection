@@ -27,17 +27,27 @@
   <p>{{ post.content|safe }}</p>
 </div>
 <div>
-  <div class="d-flex align-items-center gap-3 mb-1 border-top">
+  <div class="mb-1 border-top">
     <p class="m-0">{{ comment_count }} comments</p>
+    <form class="d-flex align-items-center">
+      <div class="pe-1 flex-grow-1">
+        <textarea class="w-100" id="comment" data-post-id="{{post.id}}" name="comment"
+          placeholder="Nhập bình luận của bạn" required></textarea>
+      </div>
+      <button type="button" id="submit_comment">Gửi</button>
+    </form>
   </div>
-  {% for comment in comments %}
-  <div class="mb-1">
-    <div class="border rounded d-inline-block p-1">
-      <p class="m-0 text-decoration-underline">{{ comment.user }}</p>
-      <p class="m-0">{{ comment }}</p>
+
+  <div id="list-comment">
+    {% for comment in comments %}
+    <div class="mb-1">
+      <div class="border rounded d-inline-block p-1">
+        <p class="m-0 text-decoration-underline">{{ comment.user }}</p>
+        <p class="m-0">{{ comment }}</p>
+      </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
 <script>
@@ -50,7 +60,7 @@
       // const csrfToken = document.cookie.match(/csrftoken=([^;]+)/)[1];
       const csrfToken = "{{ csrf_token }}";
 
-      fetch(`/like_post/${postId}/`, {
+      fetch(`/post/${postId}/like_post/`, {
           method: 'POST',
           headers: {
             'X-CSRFToken': csrfToken // Thêm token CSRF vào header
@@ -76,5 +86,37 @@
         });
     });
   });
+
+  const submitComment = document.getElementById('submit_comment')
+  const textComment = document.getElementById('comment')
+  const listComment = document.getElementById('list-comment')
+  submitComment.addEventListener('click', () => {
+    const csrfToken = "{{ csrf_token }}";
+    const id = textComment.getAttribute('data-post-id');
+
+    fetch(`/post/${id}/comment/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken,
+        },
+        body: JSON.stringify({
+          textComment: textComment.value
+        })
+      }).then((response) => response.json())
+      .then((data) => {
+        // console.log(data);
+        const user = "{{ user.username }}"
+        const commentEl = document.createElement("div");
+        commentEl.classList.add("mb-1");
+        commentEl.innerHTML = `<div class="border rounded d-inline-block p-1">
+          <p class="m-0 text-decoration-underline">${user}</p>
+          <p class="m-0">${textComment.value}</p>
+        </div>`;
+        listComment.appendChild(commentEl);
+
+        textComment.value = "";
+      });
+  })
 </script>
 {% endblock content %}

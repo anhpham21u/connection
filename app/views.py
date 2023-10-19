@@ -1,7 +1,8 @@
+import json
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .forms import PostForm
-from .models import Post
+from .models import Comment, Post
 
 # Create your views here.
 def index(req):
@@ -52,3 +53,14 @@ def like_post(request, id):
             post.likes.remove(user)
             return JsonResponse({'message': 'Unliked'})
     return JsonResponse({'message': 'Invalid request'})
+
+def send_comment(request, id):
+    data = json.loads(request.body)
+    textComment = data["textComment"]
+    post = Post.objects.get(id=id)
+    
+    # Tạo một comment mới
+    comment = Comment(user=request.user, text=textComment, post=post)
+    comment.save()
+    
+    return JsonResponse({"message": "Comment sent successfully"})
