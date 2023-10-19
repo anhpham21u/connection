@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from .forms import PostForm
 from .models import Comment, Post
+from django.db.models import Q
 
 # Create your views here.
 def index(req):
@@ -64,3 +65,9 @@ def send_comment(request, id):
     comment.save()
     
     return JsonResponse({"message": "Comment sent successfully"})
+
+def search_view(request):
+    query = request.GET.get('q', '')
+    results = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
+
+    return render(request, 'app/search_results.html', {'results': results, 'query': query})

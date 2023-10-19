@@ -1,0 +1,26 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block extrastyles %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
+{% endblock extrastyles %}
+
+{% block content %}
+<p class="fs-4">Kết quả cho: {{ query }}</p>
+<div class="row">
+  {% for post in results %}
+  <div class="col-xl-6">
+    <div class="border rounded p-2 mt-3">
+      <div class="text-truncate mb-1">
+        <a class="text-decoration-none" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
+      </div>
+      <div>
+        <p class="text-truncate text-sm text-wrap post-content">
+          {{ post.content|striptags }}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}
