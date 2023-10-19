@@ -31,8 +31,13 @@
     <p class="m-0">{{ comment_count }} comments</p>
     <form class="d-flex align-items-center">
       <div class="pe-1 flex-grow-1">
+        {% if user.is_authenticated %}
         <textarea class="w-100" id="comment" data-post-id="{{post.id}}" name="comment"
           placeholder="Nhập bình luận của bạn" required></textarea>
+        {% else %}
+        <textarea class="w-100" id="comment" data-post-id="{{post.id}}" name="comment"
+        placeholder="Nhập bình luận của bạn" required disabled></textarea>
+        {% endif %}
       </div>
       <button type="button" id="submit_comment">Gửi</button>
     </form>
