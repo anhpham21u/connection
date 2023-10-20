@@ -40,22 +40,27 @@
 </div> {% endcomment %}
 
 <div class="container py-5">
-    <h1>Login</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ login_form|crispy }}
-        <button class="btn btn-primary" type="submit">Login</button>
-    </form>
+    <div class="d-flex justify-content-center">
+        <div class="login-container p-5">
+            <h1 class="text-center">Login</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ login_form|crispy }}
 
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-    </ul>
-    {% endif %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} text-danger" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                </ul>
+                {% endif %}
 
-    <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+                <button class="btn btn-primary w-100" type="submit">Login</button>
+            </form>
+
+            <p class="text-center mt-4">Don't have an account? <a href="{% url "register" %}">Create an account</a>.</p>
+        </div>
+    </div>
 </div>
 
 {% endblock content %}

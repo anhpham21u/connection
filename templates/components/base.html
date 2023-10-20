@@ -18,14 +18,17 @@
 
   <div class="temp"></div>
   <div class="container-fluid border-bottom">
-    <div class="px-5">
+    <div class="{% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}px-5{% endif %}">
       <div class="row flex-nowrap">
         {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'newpost' %}
         {% include "authentication/side.html" %}
-        {% else %}
+        {% elif request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}
         {% include "components/side.html" %}
         {% endif %}
-        <div class="col-lg-10 col p-5 mb-5">{% block content %}{% endblock content %}</div>
+
+        <div
+          class="{% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}col-lg-10 p-5{% endif %} col mb-5">
+          {% block content %}{% endblock content %}</div>
       </div>
     </div>
   </div>
