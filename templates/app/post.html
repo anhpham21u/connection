@@ -1,6 +1,8 @@
 {% extends "components/base.html" %}
 {% load static %}
 
+{% block title %}{{post.title}}{% endblock title %}
+
 {% block extrastyles %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
 {% endblock extrastyles %}
@@ -88,13 +90,17 @@
       <div class="pe-1 flex-grow-1">
         {% if user.is_authenticated %}
         <textarea class="w-100 comment-input form-control" id="comment" data-post-id="{{post.id}}" name="comment"
-          placeholder="Nhập bình luận của bạn" required></textarea>
+          placeholder="Type your comment" required></textarea>
         {% else %}
         <textarea class="w-100 comment-input form-control" id="comment" data-post-id="{{post.id}}" name="comment"
-          placeholder="Nhập bình luận của bạn" required disabled></textarea>
+          placeholder="Log in to comment" required disabled></textarea>
         {% endif %}
       </div>
+      {% if user.is_authenticated %}
       <button class="btn btn-outline-success" type="button" id="submit_comment">Gửi</button>
+      {% else %}
+      <button class="btn btn-outline-success" type="button" id="submit_comment" disabled>Gửi</button>
+      {% endif %}
     </form>
   </div>
 

@@ -24,12 +24,12 @@ def post(req, id):
     hours_difference = time_difference.total_seconds() / 3600
     days_difference = time_difference.days
     if days_difference > 0:
-        time_ago = f"{days_difference} ngày trước"
+        time_ago = f"{days_difference} days ago"
     elif hours_difference >= 1:
-        time_ago = f"{int(hours_difference)} giờ trước"
+        time_ago = f"{int(hours_difference)} hours ago"
     else:
         minutes_difference = int(time_difference.total_seconds() / 60)
-        time_ago = f"{minutes_difference} phút trước"
+        time_ago = f"{minutes_difference} minutes ago"
 
     return render(req, 'app/post.html', {'post': post, 'comments': comments, 'comment_count': comment_count, 'time_ago': time_ago})
 

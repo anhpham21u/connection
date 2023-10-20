@@ -1,34 +1,86 @@
-{% extends "authentication/base.html" %}
+{% extends "components/base.html" %}
 
 {% load static %}
 {% load crispy_forms_tags %}
+
+{% block title %}Account manager{% endblock title %}
 
 {% block extrastyles %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/account.css' %}" />
 {% endblock extrastyles %}
 
 {% block content %}
-<p class="fs-4">Đổi thông tin cá nhân</p>
-<a href="{% url "change_password" %}">Đổi mật khẩu</a>
+{% comment %} <p class="fs-4">Personal information</p>
+<a href="{% url "change_password" %}">Đổi mật khẩu</a> {% endcomment %}
 
-<p class="fs-4">Các bài đăng</p>
+{% if request.GET.tab == "2" %}
+<h2>Your posts</h2>
 <div class="row">
     {% for post in posts %}
     <div class="col-xl-6">
-        <div class="border rounded p-2 mt-3">
+        <div class="rounded p-2 mt-3 post-card">
             <div class="text-truncate mb-1">
-                <a class="text-decoration-none" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
+                <a class="text-decoration-none text-md" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
             </div>
             <div>
-                <p class="text-truncate text-sm text-wrap post-content">
+                <p class="m-0 text-truncate text-sm text-wrap post-content">
                     {{ post.content|striptags }}
                 </p>
-            </div>
-            <div class="d-flex justify-content-end">
-                <a class="text-danger" href="{% url "delete_post" post.id %}">del</a>
+                <div class="m-0 mt-1 text-sm d-flex justify-content-between align-items-center">
+                    <div>
+                        <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"></circle>
+                                <path
+                                    d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
+                                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                            </g>
+                        </svg>
+                        <span class="me-2">{{post.user}}</span>
+                        <span>{{post.pub_date|date:"H:i d/m/Y" }}</span>
+                    </div>
+                    <a class="btn btn-outline-danger btn-sm" href="{% url "delete_post" post.id %}">Delete</a>
+                </div>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
+{% else %}
+<div class="d-flex gap-2 align-items-center mb-5">
+    <h2 class="m-0">Personal information</h2>
+    <svg class="cursor" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+            <path
+                d="M20.1497 7.93997L8.27971 19.81C7.21971 20.88 4.04971 21.3699 3.27971 20.6599C2.50971 19.9499 3.06969 16.78 4.12969 15.71L15.9997 3.84C16.5478 3.31801 17.2783 3.03097 18.0351 3.04019C18.7919 3.04942 19.5151 3.35418 20.0503 3.88938C20.5855 4.42457 20.8903 5.14781 20.8995 5.90463C20.9088 6.66146 20.6217 7.39189 20.0997 7.93997H20.1497Z"
+                stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M21 21H12" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+        </g>
+    </svg>
+</div>
+
+<label for="username" class="form-label fs-5">Username</label>
+<div class="input-group mb-3">
+    <input type="text" class="form-control" id="username" value="{{user}}" disabled>
+</div>
+<label for="email" class="form-label fs-5">Email</label>
+<div class="input-group mb-3">
+    <input type="email" class="form-control" id="email" value="{{user.email}}" disabled>
+</div>
+<label for="username" class="form-label fs-5">First name</label>
+<div class="input-group mb-3">
+    <input type="text" class="form-control" id="username" value="{{user.first_name}}" disabled>
+</div>
+<label for="username" class="form-label fs-5">Last name</label>
+<div class="input-group mb-3">
+    <input type="text" class="form-control" id="username" value="{{user.last_name}}" disabled>
+</div>
+<a href="{% url "change_password" %}">Change password</a>
+{% endif %}
 {% endblock content %}

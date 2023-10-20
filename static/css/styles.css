@@ -1,3 +1,9 @@
+.nav-search {
+    @media (min-width: 992px) {
+        width: 400px;
+    }
+}
+
 .text-sm {
     font-size: 14px;
 }
@@ -25,4 +31,8 @@
 
 .text-decoration:hover {
     text-decoration: underline;
+}
+
+.cursor:hover {
+    cursor: pointer;
 }
