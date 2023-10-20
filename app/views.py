@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
+from django.utils import timezone
 from .forms import PostForm
 from .models import Comment, Post
 from django.db.models import Q
@@ -16,7 +17,21 @@ def post(req, id):
     post = Post.objects.get(id=id)
     comments = post.comments.all()
     comment_count = comments.count()
-    return render(req, 'app/post.html', {'post': post, 'comments': comments, 'comment_count': comment_count})
+    
+    #time
+    current_time = timezone.now()
+    time_difference = current_time - post.pub_date
+    hours_difference = time_difference.total_seconds() / 3600
+    days_difference = time_difference.days
+    if days_difference > 0:
+        time_ago = f"{days_difference} ngày trước"
+    elif hours_difference >= 1:
+        time_ago = f"{int(hours_difference)} giờ trước"
+    else:
+        minutes_difference = int(time_difference.total_seconds() / 60)
+        time_ago = f"{minutes_difference} phút trước"
+
+    return render(req, 'app/post.html', {'post': post, 'comments': comments, 'comment_count': comment_count, 'time_ago': time_ago})
 
 def new_post(request):
     user_log = request.user
@@ -45,17 +60,15 @@ def delete_post(request, id):
     
 
 def like_post(request, id):
-    if request.method == 'POST':
-        post = Post.objects.get(id=id)
-        user = request.user
+    post = Post.objects.get(id=id)
+    user = request.user
 
-        if user not in post.likes.all():
-            post.likes.add(user)
-            return JsonResponse({'message': 'Liked'})
-        else:
-            post.likes.remove(user)
-            return JsonResponse({'message': 'Unliked'})
-    return JsonResponse({'message': 'Invalid request'})
+    if user not in post.likes.all():
+        post.likes.add(user)
+        return redirect('post', id)
+    else:
+        post.likes.remove(user)
+        return redirect('post', id)
 
 def send_comment(request, id):
     data = json.loads(request.body)

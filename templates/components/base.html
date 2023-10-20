@@ -16,11 +16,12 @@
 <body>
   {% include "components/navbar.html" %}
 
-  <div class="container-fluid">
+  <div class="temp"></div>
+  <div class="container-fluid border-bottom">
     <div class="px-5">
       <div class="row flex-nowrap">
         {% include "components/side.html" %}
-        <div class="col-10 py-3">{% block content %}{% endblock content %}</div>
+        <div class="col-lg-10 col p-5 mb-5">{% block content %}{% endblock content %}</div>
       </div>
     </div>
   </div>

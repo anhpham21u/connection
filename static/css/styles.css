@@ -1,3 +1,24 @@
 .text-sm {
     font-size: 14px;
 }
+
+.text-md {
+    font-size: 18px;
+}
+
+.side-ele:hover {
+    text-decoration: underline;
+    color: #3B71CA !important;
+}
+
+.temp {
+    height: 63px;
+}
+
+.footer {
+    background-color: #F8F9F9;
+}
+
+.myNav {
+    background-color: #F8F9F9;
+}
