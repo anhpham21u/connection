@@ -20,7 +20,7 @@
   <div class="container-fluid border-bottom">
     <div class="px-5">
       <div class="row flex-nowrap">
-        {% if request.resolver_match.url_name == 'account' %}
+        {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'newpost' %}
         {% include "authentication/side.html" %}
         {% else %}
         {% include "components/side.html" %}
