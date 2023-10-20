@@ -60,6 +60,10 @@ def delete_post(request, id):
     
 
 def like_post(request, id):
+    user_log = request.user
+    if not user_log.is_authenticated:
+        return redirect('login')
+
     post = Post.objects.get(id=id)
     user = request.user
 

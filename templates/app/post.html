@@ -25,7 +25,7 @@
     </p>
 
     <div>
-      <a class="text-decoration-none" href="{% url "like_post" post.id %}" data-post-id="{{ post.id }}">
+      <a class="text-decoration-none" href="{% url "like_post" post.id %}">
         {% if request.user in post.likes.all %}
         <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           width="25px" height="25px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"

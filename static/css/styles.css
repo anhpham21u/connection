@@ -22,3 +22,7 @@
 .myNav {
     background-color: #F8F9F9;
 }
+
+.text-decoration:hover {
+    text-decoration: underline;
+}
