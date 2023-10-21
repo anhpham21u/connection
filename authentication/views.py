@@ -77,7 +77,7 @@ def change_password(request):
             update_session_auth_hash(request, user)
             return redirect('account')
         else:
-            messages.error(request, 'Có lỗi xảy ra, vui lòng kiểm tra lại thông tin.')
+            messages.error(request, 'Some thing went wrong!!!')
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'authentication/change_password.html', {'form': form})

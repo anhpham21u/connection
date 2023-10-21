@@ -20,7 +20,7 @@
   <div class="container-fluid border-bottom">
     <div class="{% if request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}px-5{% endif %}">
       <div class="row flex-nowrap">
-        {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'newpost' %}
+        {% if request.resolver_match.url_name == 'account' or request.resolver_match.url_name == 'newpost' or request.resolver_match.url_name == 'change_password' %}
         {% include "authentication/side.html" %}
         {% elif request.resolver_match.url_name != 'login' and request.resolver_match.url_name != 'register' %}
         {% include "components/side.html" %}
