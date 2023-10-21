@@ -140,9 +140,34 @@ class ListPostByTime(ListView):
     model = Post
     template_name = 'app/list_post_time.html'
     context_object_name = 'list_post_time'
+    paginate_by = 10
 
     def get_queryset(self):
         return Post.objects.order_by('-pub_date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = context['paginator']
+        page = self.request.GET.get('page')
+        try:
+            posts = paginator.get_page(page)
+        except EmptyPage:
+            posts = paginator.get_page(1)
+
+        current_page = posts.number
+        total_pages = paginator.num_pages
+
+        if total_pages <= 5:
+            page_range = range(1, total_pages + 1)
+        elif current_page <= 3:
+            page_range = range(1, 6)
+        elif current_page >= total_pages - 2:
+            page_range = range(total_pages - 4, total_pages + 1)
+        else:
+            page_range = range(current_page - 2, current_page + 3)
+
+        context['page_range'] = page_range
+        return context
 
 class ListPostByLike(ListView):
     model = Post

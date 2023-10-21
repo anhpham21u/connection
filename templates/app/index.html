@@ -9,59 +9,61 @@
 
 {% block content %}
 <h2>Posts</h2>
-<div class="row">
-  {% for post in posts %}
-  <div class="col-xl-6">
-    <div class="rounded p-2 mt-3 post-card">
-      <div class="text-truncate mb-1">
-        <a class="text-decoration-none text-md" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
-      </div>
-      <div>
-        <p class="m-0 text-truncate text-sm text-wrap post-content">
-          {{ post.content|striptags }}
-        </p>
-        <div class="m-0 mt-1 text-sm d-flex justify-content-between">
-          <div class="d-flex gap-3">
-            <div>
-              <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"></circle>
-                  <path
-                    d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
-                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
-                </g>
-              </svg>
-              <span>{{post.user}}</span>
+<div class="main-body-posts">
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-xl-6">
+      <div class="rounded p-2 mt-3 post-card">
+        <div class="text-truncate mb-1">
+          <a class="text-decoration-none text-md" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
+        </div>
+        <div>
+          <p class="m-0 text-truncate text-sm text-wrap post-content">
+            {{ post.content|striptags }}
+          </p>
+          <div class="m-0 mt-1 text-sm d-flex justify-content-between">
+            <div class="d-flex gap-3">
+              <div>
+                <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"></circle>
+                    <path
+                      d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
+                      stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                  </g>
+                </svg>
+                <span>{{post.user}}</span>
+              </div>
+              <div>
+                <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M5 22V14M5 14V4M5 14L7.47067 13.5059C9.1212 13.1758 10.8321 13.3328 12.3949 13.958C14.0885 14.6354 15.9524 14.7619 17.722 14.3195L17.8221 14.2945C18.4082 14.148 18.6861 13.4769 18.3753 12.9589L16.8147 10.3578C16.4732 9.78863 16.3024 9.50405 16.2619 9.19451C16.2451 9.06539 16.2451 8.93461 16.2619 8.80549C16.3024 8.49595 16.4732 8.21137 16.8147 7.64221L18.0932 5.51132C18.4278 4.9536 17.9211 4.26972 17.2901 4.42746C15.8013 4.79967 14.2331 4.69323 12.8082 4.12329L12.3949 3.95797C10.8321 3.33284 9.1212 3.17576 7.47067 3.50587L5 4M5 4V2"
+                      stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                  </g>
+                </svg>
+                <span>{{post.topic}}</span>
+              </div>
             </div>
-            <div>
-              <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M5 22V14M5 14V4M5 14L7.47067 13.5059C9.1212 13.1758 10.8321 13.3328 12.3949 13.958C14.0885 14.6354 15.9524 14.7619 17.722 14.3195L17.8221 14.2945C18.4082 14.148 18.6861 13.4769 18.3753 12.9589L16.8147 10.3578C16.4732 9.78863 16.3024 9.50405 16.2619 9.19451C16.2451 9.06539 16.2451 8.93461 16.2619 8.80549C16.3024 8.49595 16.4732 8.21137 16.8147 7.64221L18.0932 5.51132C18.4278 4.9536 17.9211 4.26972 17.2901 4.42746C15.8013 4.79967 14.2331 4.69323 12.8082 4.12329L12.3949 3.95797C10.8321 3.33284 9.1212 3.17576 7.47067 3.50587L5 4M5 4V2"
-                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
-                </g>
-              </svg>
-              <span>{{post.topic}}</span>
-            </div>
+            <span>{{post.pub_date|date:"H:i d/m/y" }}</span>
           </div>
-          <span>{{post.pub_date|date:"H:i d/m/y" }}</span>
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </div>
 
-<nav class="d-flex justify-content-center mt-5" aria-label="Pagination">
+<nav class="d-flex justify-content-center" aria-label="Pagination">
   <ul class="pagination">
     {% if posts.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">Trước</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
     {% else %}
-    <li class="page-item disabled"><span class="page-link">Trước</span></li>
+    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
     {% endif %}
 
     {% comment %} {% for i in posts.paginator.page_range %}
@@ -90,9 +92,9 @@
     {% endfor %}
 
     {% if posts.has_next %}
-    <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">Sau</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ posts.next_page_number }}">&raquo;</a></li>
     {% else %}
-    <li class="page-item disabled"><span class="page-link">Sau</span></li>
+    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
     {% endif %}
   </ul>
 </nav>

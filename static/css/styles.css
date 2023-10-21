@@ -36,3 +36,7 @@
 .cursor:hover {
     cursor: pointer;
 }
+
+.main-body-posts {
+    height: 700px;
+}
