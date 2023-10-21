@@ -116,7 +116,28 @@ def search_view(request):
     query = request.GET.get('q', '')
     results = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query))
 
-    return render(request, 'app/search_results.html', {'results': results, 'query': query})
+    per_page = 10
+    paginator = Paginator(results, per_page)
+    page = request.GET.get('page')
+
+    try:
+        results = paginator.get_page(page)
+    except EmptyPage:
+        results = paginator.get_page(1)
+
+    current_page = results.number
+    total_pages = paginator.num_pages
+
+    if total_pages <= 5:
+        page_range = range(1, total_pages + 1)
+    elif current_page <= 3:
+        page_range = range(1, 6)
+    elif current_page >= total_pages - 2:
+        page_range = range(total_pages - 4, total_pages + 1)
+    else:
+        page_range = range(current_page - 2, current_page + 3)
+
+    return render(request, 'app/search_results.html', {'results': results, 'query': query, 'page_range': page_range})
 
 def upload_image(request):
     if request.method == 'POST':
