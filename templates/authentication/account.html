@@ -15,40 +15,75 @@
 
 {% if request.GET.tab == "2" %}
 <h2>Your posts</h2>
-<div class="row">
-    {% for post in posts %}
-    <div class="col-xl-6">
-        <div class="rounded p-2 mt-3 post-card">
-            <div class="text-truncate mb-1">
-                <a class="text-decoration-none text-md" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
-            </div>
-            <div>
-                <p class="m-0 text-truncate text-sm text-wrap post-content">
-                    {{ post.content|striptags }}
-                </p>
-                <div class="m-0 mt-1 text-sm d-flex justify-content-between align-items-center">
-                    <div>
-                        <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"></circle>
-                                <path
-                                    d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
-                                    stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
-                            </g>
-                        </svg>
-                        <span class="me-2">{{post.user}}</span>
-                        <span>{{post.pub_date|date:"H:i d/m/Y" }}</span>
+<div class="main-body-posts">
+    <div class="row">
+        {% for post in posts %}
+        <div class="col-xl-6">
+            <div class="rounded p-2 mt-3 post-card">
+                <div class="text-truncate mb-1">
+                    <a class="text-decoration-none text-md" href="{% url 'post' id=post.id %}">{{ post.title }}</a>
+                </div>
+                <div>
+                    <p class="m-0 text-truncate text-sm text-wrap post-content">
+                        {{ post.content|striptags }}
+                    </p>
+                    <div class="m-0 mt-1 text-sm d-flex justify-content-between align-items-center">
+                        <div>
+                            <svg width="15px" height="15px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <circle cx="12" cy="6" r="4" stroke="#1C274C" stroke-width="1.5"></circle>
+                                    <path
+                                        d="M19.9975 18C20 17.8358 20 17.669 20 17.5C20 15.0147 16.4183 13 12 13C7.58172 13 4 15.0147 4 17.5C4 19.9853 4 22 12 22C14.231 22 15.8398 21.8433 17 21.5634"
+                                        stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"></path>
+                                </g>
+                            </svg>
+                            <span class="me-2">{{post.user}}</span>
+                            <span>{{post.pub_date|date:"H:i d/m/Y" }}</span>
+                        </div>
+                        <a class="btn btn-outline-danger btn-sm" href="{% url "delete_post" post.id %}">Delete</a>
                     </div>
-                    <a class="btn btn-outline-danger btn-sm" href="{% url "delete_post" post.id %}">Delete</a>
                 </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
+
+<nav class="d-flex justify-content-center" aria-label="Pagination">
+    <ul class="pagination">
+        {% if posts.has_previous %}
+        <li class="page-item"><a class="page-link" href="?tab=2&page={{ posts.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %}
+
+        {% for i in page_range %}
+        {% if posts.number == i %}
+        <!-- Code cho trang hiện tại -->
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only"></span></span></li>
+        {% elif i == page_range.0 or i == page_range.1 or i == page_range|last %}
+        <!-- Code cho các trang ở hai đầu -->
+        <li class="page-item"><a class="page-link" href="?tab=2&page={{ i }}">{{ i }}</a></li>
+        {% elif i > page_range.1 and i < page_range|last %}
+        <!-- Hiển thị dấu "..." giữa các trang -->
+        {% if not show_ellipsis %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        {% with show_ellipsis=true %}
+        {% endwith %}
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <li class="page-item"><a class="page-link" href="?tab=2&page={{ posts.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %}
+    </ul>
+</nav>
 {% else %}
 <div class="d-flex gap-2 align-items-center mb-5">
     <h2 class="m-0">Personal information</h2>

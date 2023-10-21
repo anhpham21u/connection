@@ -173,12 +173,38 @@ class ListPostByLike(ListView):
     model = Post
     template_name = 'app/most_liked_posts.html'
     context_object_name = 'most_liked_posts'
+    paginate_by = 10
     queryset = Post.objects.annotate(like_count=Count('likes')).order_by('-like_count')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = context['paginator']
+        page = self.request.GET.get('page')
+        try:
+            posts = paginator.get_page(page)
+        except EmptyPage:
+            posts = paginator.get_page(1)
+
+        current_page = posts.number
+        total_pages = paginator.num_pages
+
+        if total_pages <= 5:
+            page_range = range(1, total_pages + 1)
+        elif current_page <= 3:
+            page_range = range(1, 6)
+        elif current_page >= total_pages - 2:
+            page_range = range(total_pages - 4, total_pages + 1)
+        else:
+            page_range = range(current_page - 2, current_page + 3)
+
+        context['page_range'] = page_range
+        return context
 
 class ListPostByTopic(ListView):
     model = Post
     template_name = 'app/post_by_topic.html'
     context_object_name = 'post_by_topic'
+    paginate_by = 10
 
     def get_queryset(self):
         topic_id = self.kwargs.get('topic_id')
@@ -189,4 +215,26 @@ class ListPostByTopic(ListView):
         topic_id = self.kwargs.get('topic_id')
         topic = Topic.objects.get(id=topic_id)
         context['topic_name'] = topic.name
+
+        paginator = context['paginator']
+        page = self.request.GET.get('page')
+        try:
+            posts = paginator.get_page(page)
+        except EmptyPage:
+            posts = paginator.get_page(1)
+
+        current_page = posts.number
+        total_pages = paginator.num_pages
+
+        if total_pages <= 5:
+            page_range = range(1, total_pages + 1)
+        elif current_page <= 3:
+            page_range = range(1, 6)
+        elif current_page >= total_pages - 2:
+            page_range = range(total_pages - 4, total_pages + 1)
+        else:
+            page_range = range(current_page - 2, current_page + 3)
+
+        context['page_range'] = page_range
+
         return context

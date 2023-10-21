@@ -5,6 +5,7 @@ from app.models import Post
 from .forms import NewUserForm
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.core.paginator import Paginator, EmptyPage
 
 def registration_view(request):
     user_log = request.user
@@ -58,10 +59,34 @@ def account_view(request):
     
     user = request.user
     posts = Post.objects.filter(user=user)
+
+    per_page = 10
+    paginator = Paginator(posts, per_page)
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.get_page(page)
+    except EmptyPage:
+        posts = paginator.get_page(1)
+
+    current_page = posts.number
+    total_pages = paginator.num_pages
+
+    if total_pages <= 5:
+        page_range = range(1, total_pages + 1)
+    elif current_page <= 3:
+        page_range = range(1, 6)
+    elif current_page >= total_pages - 2:
+        page_range = range(total_pages - 4, total_pages + 1)
+    else:
+        page_range = range(current_page - 2, current_page + 3)
+
     context = {
         'user': user,
         'posts': posts,
+        'page_range': page_range
     }
+
     return render(request, 'authentication/account.html', context)
 
 def change_password(request):
