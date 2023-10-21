@@ -1,12 +1,14 @@
 import json
+from django.views.generic import ListView
 import os
 from django.conf import settings
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 from django.utils import timezone
 from .forms import PostForm
-from .models import Comment, Post
+from .models import Comment, Post, Topic
 from django.db.models import Q
+from django.db.models import Count
 
 # Create your views here.
 def index(req):
@@ -108,3 +110,33 @@ def upload_image(request):
             return JsonResponse({'url': image_url})
 
     return JsonResponse({'error': 'Image upload failed'}, status=400)
+
+class ListPostByTime(ListView):
+    model = Post
+    template_name = 'app/list_post_time.html'
+    context_object_name = 'list_post_time'
+
+    def get_queryset(self):
+        return Post.objects.order_by('-pub_date')
+
+class ListPostByLike(ListView):
+    model = Post
+    template_name = 'app/most_liked_posts.html'
+    context_object_name = 'most_liked_posts'
+    queryset = Post.objects.annotate(like_count=Count('likes')).order_by('-like_count')
+
+class ListPostByTopic(ListView):
+    model = Post
+    template_name = 'app/post_by_topic.html'
+    context_object_name = 'post_by_topic'
+
+    def get_queryset(self):
+        topic_id = self.kwargs.get('topic_id')
+        return Post.objects.filter(topic_id=topic_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        topic_id = self.kwargs.get('topic_id')
+        topic = Topic.objects.get(id=topic_id)
+        context['topic_name'] = topic.name
+        return context

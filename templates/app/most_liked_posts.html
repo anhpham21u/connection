@@ -1,16 +1,16 @@
 {% extends "components/base.html"%}
 {% load static %}
 
-{% block title %}Search{% endblock title %}
+{% block title %}Home{% endblock title %}
 
 {% block extrastyles %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}" />
 {% endblock extrastyles %}
 
 {% block content %}
-<h2>Results for: {{ query }}</h2>
+<h2>Latest Like</h2>
 <div class="row">
-  {% for post in results %}
+  {% for post in most_liked_posts %}
   <div class="col-xl-6">
     <div class="rounded p-2 mt-3 post-card">
       <div class="text-truncate mb-1">

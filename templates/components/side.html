@@ -19,7 +19,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link px-0 align-middle d-flex align-items-center gap-1">
+        <a href="{% url "latest_posts" %}" class="nav-link px-0 align-middle d-flex align-items-center gap-1">
           <svg height="20px" width="20px" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -51,7 +51,7 @@
           <span class="ms-1 d-none d-sm-inline text-dark side-ele">Latest posts</span></a>
       </li>
       <li>
-        <a href="#" class="nav-link px-0 align-middle d-flex align-items-center gap-1">
+        <a href="{% url "most_liked_posts" %}" class="nav-link px-0 align-middle d-flex align-items-center gap-1">
           <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -85,7 +85,7 @@
         <ul class="collapse show nav flex-column ms-xxl-5 ms-3" id="submenu1" data-bs-parent="#menu">
           {% for topic in topics %}
           <li class="">
-            <a href="#" class="nav-link px-0">
+            <a href="{% url "post_by_topic" topic.id %}" class="nav-link px-0">
               <span class="d-none d-sm-inline text-dark side-ele">{{topic}}</span>
             </a>
           </li>
