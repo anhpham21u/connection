@@ -13,3 +13,6 @@ Lưu ý: cài pipenv nếu chưa cài: pip install pipenv
 # Các thư viện
 crispy-bootstrap5, django-crispy-forms: design form theo chuẩn bootstrap 5
 django-tinymce: trình chỉnh sửa text trong form
+
+# Cập nhật thư viện
+pip freeze > requirements.txt
