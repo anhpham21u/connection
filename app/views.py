@@ -9,11 +9,36 @@ from .forms import PostForm
 from .models import Comment, Post, Topic
 from django.db.models import Q
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage
 
 # Create your views here.
-def index(req):
+def index(request):
     posts = Post.objects.all()
-    return render(req, 'app/index.html', {'posts': posts})
+
+    # pageination
+    per_page = 10
+    paginator = Paginator(posts, per_page)
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.get_page(page)
+    except EmptyPage:
+        posts = paginator.get_page(1)
+
+    current_page = posts.number
+    total_pages = paginator.num_pages
+
+    if total_pages <= 5:
+        page_range = range(1, total_pages + 1)
+    elif current_page <= 3:
+        page_range = range(1, 6)
+    elif current_page >= total_pages - 2:
+        page_range = range(total_pages - 4, total_pages + 1)
+    else:
+        page_range = range(current_page - 2, current_page + 3)
+
+
+    return render(request, 'app/index.html', {'posts': posts, 'page_range': page_range})
 
 def post(req, id):
     post = Post.objects.get(id=id)
